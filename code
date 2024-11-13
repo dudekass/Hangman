@@ -1,24 +1,31 @@
-import random
+import random # built-in Python library
 
+# greeting the user and welcoming them to the game
 def welcome():
     welcome_message = print("Welcome to the great game of Hangman!")
     return welcome_message
 
+# Hangman game functioin
 def hangman_game():
     while True:
+        # randomly selecting a word from the list
         word_list = ['dolphin', 'octopus', 'shark', 'whale', 'penguin', 'turtle', 'fish', 'jellyfish', 'seahorse', 'starfish']
-        word = random.choice(word_list)
-        word_len = len(word)
-        amt_letters = ["_"] * word_len
+        word = random.choice(word_list) # storing the word chosen on a variable called "word"
+        word_len = len(word) # finding out how many letters there is in the chosen word
+        amt_letters = ["_"] * word_len # how many underscores should be displayed on the terminal
+        # initial count
         correct_guess = 0
         incorrect_guess = 0
         all_guesses = set()
 
+        # indicating to the user how many letters are in the word
         print(f"The word you have to discover has {word_len} letters.")
-    
+
+        # creating the loop that will make sure the user keeps on guessing until the word is discovered
         while amt_letters != list(word):
             guess = input("Guess a letter: ").lower()
-            
+
+            # these are to make sure that the user's input is a single, valid, and new letter each time 
             if len(guess) != 1:
                 print("Please enter only one letter.")
                 continue
@@ -29,8 +36,10 @@ def hangman_game():
                 print("Please enter a valid letter.")
                 continue
 
+            # keeping track of the letters guessed 
             all_guesses.add(guess)
 
+            # checking to see if the letter guessed is correct or not, and if it is, where it should be placed
             if guess in word:
                 for i in range(len(word)):
                     if word[i] == guess:
@@ -41,18 +50,22 @@ def hangman_game():
                 incorrect_guess += 1
                 print("That's incorrect!")
 
+            # what should be displayed on the user's terminal each time they have to guess a letter
             print("word: ", " ".join(amt_letters))
             print("letters guessed:", ", ".join(all_guesses))
             print(f"Correct guesses: {correct_guess}")
             print(f"Incorrect guesses: {incorrect_guess}")
 
+        # once there are no more underscores, meaning the word has been completed, it should display to the user what the word was, and how many attempts it was needed in order to discover the word
         print(f"\nYou discovered the secret word! {word} ! Congratulations!")
         print(f"It took you {correct_guess + incorrect_guess} attempts.")
 
+        # giving the user a chance to play a new game with another random word, or to quit and not play again
         new_game = input("Do you want to play a new game? (yes/no): ").lower()
         if new_game != "yes":
             print("Thank you for playing!")
             break
 
+# calling the welcome and game functions
 welcome()
 hangman_game()
