@@ -1,0 +1,58 @@
+import random
+
+def welcome():
+    welcome_message = print("Welcome to the great game of Hangman!")
+    return welcome_message
+
+def hangman_game():
+    while True:
+        word_list = ['dolphin', 'octopus', 'shark', 'whale', 'penguin', 'turtle', 'fish', 'jellyfish', 'seahorse', 'starfish']
+        word = random.choice(word_list)
+        word_len = len(word)
+        amt_letters = ["_"] * word_len
+        correct_guess = 0
+        incorrect_guess = 0
+        all_guesses = set()
+
+        print(f"The word you have to discover has {word_len} letters.")
+    
+        while amt_letters != list(word):
+            guess = input("Guess a letter: ").lower()
+            
+            if len(guess) != 1:
+                print("Please enter only one letter.")
+                continue
+            if guess in all_guesses:
+                print("Please enter a new letter; you've already tried this one.")
+                continue
+            if not guess.isalpha():
+                print("Please enter a valid letter.")
+                continue
+
+            all_guesses.add(guess)
+
+            if guess in word:
+                for i in range(len(word)):
+                    if word[i] == guess:
+                        amt_letters[i] = guess
+                correct_guess += 1
+                print("That's correct!")
+            else:
+                incorrect_guess += 1
+                print("That's incorrect!")
+
+            print("word: ", " ".join(amt_letters))
+            print("letters guessed:", ", ".join(all_guesses))
+            print(f"Correct guesses: {correct_guess}")
+            print(f"Incorrect guesses: {incorrect_guess}")
+
+        print(f"\nYou discovered the secret word! {word} ! Congratulations!")
+        print(f"It took you {correct_guess + incorrect_guess} attempts.")
+
+        new_game = input("Do you want to play a new game? (yes/no): ").lower()
+        if new_game != "yes":
+            print("Thank you for playing!")
+            break
+
+welcome()
+hangman_game()
